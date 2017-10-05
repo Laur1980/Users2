@@ -13,8 +13,8 @@ describe('Create records', () => {
 
 		const joe = new User({name:'Joe'});
 		joe.save()
-			.then(() => {
-				//isNew flagg is true only if the object is not saved into mongodb
+		   .then(() => {
+			 	//isNew flagg is true only if the object is not saved into mongodb
 				assert(!joe.isNew);
 				done();
 			});
