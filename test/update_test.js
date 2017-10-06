@@ -7,7 +7,7 @@ describe('update records using',() => {
 
 	beforeEach((done) => {
 
-		joe = new User({name:'Gogu'});
+		joe = new User({name:'Gogu', postCount: 0});
 		joe.save()
 			.then(() => done());
 	});
@@ -15,11 +15,11 @@ describe('update records using',() => {
 	function assertName(operation, done){
 		operation
 		.then(() => User.find({}))					
-			.then((users) => {
+		.then((users) => {
 				assert(users.length === 1);
 				assert(users[0].name === 'Vasile');
 				done();
-			});
+		});
 	}
 
 	it('model instance set n save', (done) => {
@@ -51,6 +51,20 @@ describe('update records using',() => {
 	it('A model class can find a record with an ID and update', (done) => {
 
 		assertName(User.findByIdAndUpdate(joe._id,{name:'Vasile'}),done);
+
+	});
+
+	it('a user can have the post count incremented', (done) => {
+		// $inc operator is used in conjuction of update operation to increment or decrement a numeric value o a property
+		User.update({name:'Gogu'},{$inc: {postCount:-10}})
+			.then(() => User.findOne({name:'Gogu'}))
+			.then((user) => {
+				console.log('postCount after update: '+user.postCount);
+				assert(user.postCount === -10);
+				done();
+
+			});
+
 
 	});
 
