@@ -38,7 +38,7 @@ describe('Associations',() => {
     });
     
     
-    it.only('saves a full relation graph', () => {
+    it('saves a full relation graph', () => {
         User.findOne({name:'Vasile'})
             .populate({
                         path: 'blogPosts',

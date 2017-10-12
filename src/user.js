@@ -26,6 +26,17 @@ UserSchema.virtual('postCount').get(function() {
     return this.posts.length;
 });
 
+//middleware that executes before a 'remove' in the database
+UserSchema.pre('remove', function(next) {
+    const BlogPost = mongoose.model('blogPost');
+    //this is available, this is why not a "fat arrow" function is used!
+    
+    BlogPost.remove({ _id: {$in:this.blogPosts} })
+            .then(() => next());
+    
+}); 
+
 const User = mongoose.model('user', UserSchema);
+
 //exporting the User model 
 module.exports = User;
